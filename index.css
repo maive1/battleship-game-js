@@ -1,0 +1,33 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+    font-family: 'Francois One', sans-serif;
+}
+
+.container{
+    overflow: auto;
+    background-color:#0059b3;
+    padding: 1em;
+    margin: 1em;
+    color: whitesmoke;
+    border: 10px solid grey;
+    border-radius: 1em;
+}
+
+.container > h1 {
+    text-align: center;
+}
+.container > div {
+    background-color: white;
+}
+
+.square{
+    height: 1em;
+    width: 1em;
+    
+}
