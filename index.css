@@ -68,7 +68,9 @@ p {
     position: absolute;
     overflow: auto;
     width: 100px;
-    left: 350px;
+    height: 100px;
+    left: 400px;
+    bottom: 59px;
     text-align: center;
     background-color: lawngreen;
     border: 5px solid blanchedalmond;
