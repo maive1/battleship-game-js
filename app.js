@@ -3,9 +3,12 @@ let rows = 10;
 let cols = 10;
 let sizeSquare = 30;
 let attacksCounter = 0;
+let shipNum = 5;
 let ships = [];
-//let boardPlayerOne = createBoard();
-//let boardPlayerTwo = createBoard();
+let mySound;
+soundHit = new sound("./sounds/Bomb.mp3");
+soundOcean = new sound("./sounds/ocean.mp3")
+
 
 //Create gameboard with squares
 
@@ -20,30 +23,28 @@ for(let i=0; i < cols; i++){
 
          square.style.top = topPosition + 'px';
          square.style.left = leftPosition + 'px';
-        
-         
       }
 }
             
 
-// 
+// Grid Game
+
 let grid = [
    [1,1,1,1,0,0,0,0,0,0],
    [0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,1,0,0],
+   [1,0,0,0,0,0,0,1,0,0],
+   [1,0,0,0,0,0,0,1,0,0],
    [0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,1,1,1,0,0,0,0],
    [0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,1,1,1,1,1],
    [0,0,0,0,0,0,0,0,0,0],
 ];
 
-//Check for  hits
 
-gameboard.addEventListener("click", fireTorpedo, false);
 
+//create alert
 function showAlert (message, cssClass, time){
    const alert = document.createElement('div');
    alert.className = `msg msg-${cssClass}`;
@@ -57,6 +58,27 @@ function showAlert (message, cssClass, time){
    }, time)
 }
 
+//create class sound
+
+function sound(src) {
+   this.sound = document.createElement("audio");
+   this.sound.src = src;
+   this.sound.setAttribute("preload", "auto");
+   this.sound.setAttribute("controls", "none");
+   this.sound.style.display = "none";
+   document.body.appendChild(this.sound);
+   this.play = function(){
+       this.sound.play();
+   }
+   this.stop = function(){
+       this.sound.pause();
+   }    
+}
+
+//Check for  hits
+
+gameboard.addEventListener("click", fireTorpedo, false);
+
 function fireTorpedo(e) {
 	if (e.target !== e.currentTarget) {
       
@@ -66,21 +88,22 @@ function fireTorpedo(e) {
 				
 
 		if (grid[row][col] == 0) {
+         soundOcean.play();
 			e.target.style.background = '#bbb';
 			
-			grid[row][col] = 3;
-			
-		
-		} else if (grid[row][col] == 1) {
+         grid[row][col] = 3;
+         
+		} else if (grid[row][col] == 1) { 
+         soundHit.play();
 			e.target.style.background = 'black';
 			grid[row][col] = 2;			
          
          let total = attacksCounter++;
          let h = document.getElementById('count-shot');
-         h.innerHTML = total;
+         h.innerHTML = total + 1;
 			
 			if (attacksCounter == 17) {
-                showAlert("All enemy battleships have been defeated! You win!", 'win', 10000);
+            showAlert("All enemy battleships have been defeated! You win!", 'win', 10000);
             }
 		   } else if (grid[row][col] > 1) {
             showAlert('Stop wasting your torpedos! You already fired at this location.',"alreadyfired", 2000);
@@ -91,17 +114,28 @@ function fireTorpedo(e) {
 
 
 
+/*function generateShip ()  {
+   let direction = Math.floor(Math.random() * 2);
+	let row, col;
 
+   if (direction === 1) { // horizontal
+      row = Math.floor(Math.random() * boardSize);
+      col = Math.floor(Math.random() * (boardSize - model.shipLength+ 1));
+   } else { // vertical
+      row = Math.floor(Math.random() * (boardSize - model.shipLength + 1));
+      col = Math.floor(Math.random() * boardSize);
+   }
 
-/*function play (e){
- 
+   let newShipLocations = [];
+   for (let i = 0; i < model.shipLength; i++) {
+      if (direction === 1) {
+         newShipLocations.push(row + "" + (col + i));
+      } else {
+         newShipLocations.push((row + i) + "" + col);
+      }
+   }  
+   return newShipLocations;
 }*/
-
-
-
-////  cardArray.sort(() => 0.5 - Math.random())
-
-
-//check for shots
+//generateShipLocations();
 
 
